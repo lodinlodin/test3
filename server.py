@@ -55,3 +55,6 @@ def handle_message(event):
     elif event.message.text == "音訊":
         line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url='音訊網址', duration=100000))
     return 'OK2'
+
+if __name__ == "__main__":
+    app.run(debug=True,port=80)
