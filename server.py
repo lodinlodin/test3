@@ -39,35 +39,19 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # get user id when reply
-    user_id = event.source.user_id
-    print("user_id =", user_id)
-
-from linebot import LineBotApi
-from linebot.models import TextSendMessage, ImageSendMessage
-from linebot.exceptions import LineBotApiError
-
-CHANNEL_ACCESS_TOKEN = "YOUR CHANNEL TOKEN"
-to = "YOUR USER ID"
-
-line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-
-#文字訊息
-
-    try:
-        line_bot_api.push_message(to, TextSendMessage(text='台科大電腦研習社'))
-    except LineBotApiError as e:
-    # error handle
-        raise e
-
-#圖片訊息
-# ImageSendMessage物件中的輸入
-# original_content_url 以及 preview_image_url都要寫才不會報錯。
-#輸入的網址要是一個圖片，應該說只能是一個圖片，不然不會報錯但是傳過去是灰色不能用的圖
-    line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
-    image_url = "https://i.imgur.com/eTldj2E.png?1"
-    try:
-        line_bot_api.push_message(to, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
-    except LineBotApiError as e:
-    # error handle
-        raise e
+   @handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    msg = event.message.text
+    #print(type(msg))
+    msg = msg.encode('utf-8')  
+    if event.message.text == "文字":
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=event.message.text))
+    elif event.message.text == "貼圖":
+        line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id=1, sticker_id=2))
+    elif event.message.text == "圖片":
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='圖片網址', preview_image_url='圖片網址'))
+    elif event.message.text == "影片":
+        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='影片網址', preview_image_url='預覽圖片網址'))
+    elif event.message.text == "音訊":
+        line_bot_api.reply_message(event.reply_token,AudioSendMessage(original_content_url='音訊網址', duration=100000))
+    return 'OK2'
