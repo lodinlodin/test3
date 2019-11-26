@@ -17,11 +17,8 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('YOUR_Channel_access_token')
 handler = WebhookHandler('YOUR_Channel_secret')
 
-@app.route("/", methods=['GET'])
-def hello():
-    return "Hello World!"
 
-@app.route("/", methods=['POST'])
+@app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
@@ -43,4 +40,8 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=event.message.text))
+    if event.message.text == "貼圖":
+        line_bot_api.reply_message(
+            event.reply_token,
+            StickerSendMessage(package_id=11537, sticker_id=52002759))
 
