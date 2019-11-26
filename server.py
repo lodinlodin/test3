@@ -39,9 +39,9 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):   
-    if line_bot_api.reply_message(
+    line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
 
-    elif event.message.text == "貼圖":
+    event.message.text == "貼圖":
         line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id=11537, sticker_id=52002734))
