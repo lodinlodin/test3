@@ -43,12 +43,13 @@ def handle_message(event):
     msg = event.message.text
     #print(type(msg))
     msg = msg.encode('utf-8')  
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=event.message.text))
-    if event.message.text == "貼圖":
-        line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id=1, sticker_id=2))
-    elif event.message.text == "圖片":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://miro.medium.com/max/534/1*icRYHYAJJQOJbYznJbtO7g.jpeg', preview_image_url='https://miro.medium.com/max/534/1*icRYHYAJJQOJbYznJbtO7g.jpeg'))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text))
+
+        if event.message.text == "貼圖":
+            line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id=1, sticker_id=2))
+        elif event.message.text == "圖片":
+            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://miro.medium.com/max/534/1*icRYHYAJJQOJbYznJbtO7g.jpeg', preview_image_url='https://miro.medium.com/max/534/1*icRYHYAJJQOJbYznJbtO7g.jpeg'))
     
 
-if __name__ == "__main__":
-    app.run(debug=True,port=80)
